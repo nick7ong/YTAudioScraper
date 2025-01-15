@@ -18,3 +18,7 @@ output_dir = "<OUTPUT_DIR>"
 scraper = YouTubeAudioScraper(url)
 data, sample_rate, output_path = scraper.download_audio(output_dir)
 ```
+
+Informative resources on YouTube audio stream quality: 
+- [YT Audio Quality Analysis](https://www.audiomisc.co.uk/YouTube/SpotTheDifference.html)
+- [YT Stream Format Codes](https://gist.github.com/sidneys/7095afe4da4ae58694d128b1034e01e2)

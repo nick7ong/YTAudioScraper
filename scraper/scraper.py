@@ -1,4 +1,5 @@
 import os
+import re
 from io import BytesIO
 
 import soundfile as sf
@@ -25,8 +26,8 @@ class YouTubeAudioScraper:
     def _get_audio_stream(self):
         """Retrieve the audio stream from the YouTube video."""
         print(f"{Fore.YELLOW}Fetching audio stream...{Style.RESET_ALL}")
-        stream_query = self.yt.streams.filter(only_audio=True)
-        audio_stream = stream_query.first()
+        stream_query = self.yt.streams.filter(only_audio=True, file_extension='mp4')  # Ffmpeg only supports m4a/aac
+        audio_stream = stream_query.last()  # Last stream is highest bitrate
         if audio_stream:
             print(f"{Fore.GREEN}Audio stream retrieved successfully.{Style.RESET_ALL}")
         else:
@@ -112,7 +113,8 @@ class YouTubeAudioScraper:
             os.makedirs(destination_dir)
             print(f"{Fore.GREEN}Created output directory: {destination_dir}{Style.RESET_ALL}")
 
-        sanitized_title = self.yt.title.replace("/", "_").replace("|", "_").replace(" ", "_")
+        sanitized_title = re.sub(r"[\/| ]|[\s-]*-[\s-]*", "_", self.yt.title)
+        sanitized_title = re.sub(r"_+", "_", sanitized_title)
         output_path = os.path.join(destination_dir, f"{sanitized_title}.wav")
 
         with tqdm(
@@ -131,7 +133,7 @@ class YouTubeAudioScraper:
 
 
 if __name__ == "__main__":
-    yt_url = "https://youtu.be/SXQeyudFe-g"
+    yt_url = input("URL > ")
     output_dir = os.path.join("..", "output")
 
     try:
