@@ -1,12 +1,19 @@
 import argparse
-
+import warnings
 import librosa
 import numpy as np
 import soundfile as sf
 import torch
 from tqdm import tqdm
+from colorama import Fore, Style
 
 from .apollo import Apollo
+
+warnings.filterwarnings(
+    "ignore",
+    message=".*torch.load.*weights_only=False.*",
+    category=FutureWarning
+)
 
 
 def load_audio(file_path):
@@ -57,7 +64,7 @@ def enchance(model, audio_path, device):
     counter = torch.zeros((1,) + tuple(test_data.shape), dtype=torch.float32, device=device)
 
     i = 0
-    progress_bar = tqdm(total=test_data.shape[1], desc="Processing audio_path chunks", leave=False)
+    progress_bar = tqdm(total=test_data.shape[1], desc="Enhancing audio_path chunks", leave=True)
 
     while i < test_data.shape[1]:
         part = test_data[:, i:i + C]
@@ -124,6 +131,7 @@ def process_audio(input_wav, output_wav, checkpoint_file):
     with torch.no_grad():
         fs, output = enchance(model, input_wav, device)
     save_audio(output_wav, output, fs)
+    print(f"{Fore.GREEN}Enhanced file saved to: {output_wav}{Style.RESET_ALL}")
 
 
 if __name__ == "__main__":
