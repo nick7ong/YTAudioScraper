@@ -4,14 +4,14 @@ from scraper import YouTubeAudioScraper
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Download YouTube audio as WAV and convert to NumPy array.")
+    parser = argparse.ArgumentParser(description="Download YouTube audio_path as WAV and convert to NumPy array.")
     parser.add_argument("yt_url", type=str, help="The YouTube video URL.")
     parser.add_argument("output_dir", type=str, help="Directory to save the WAV file.")
 
     args = parser.parse_args()
 
     try:
-        # Initialize the scraper and download audio
+        # Initialize the scraper and download audio_path
         scraper = YouTubeAudioScraper(args.yt_url)
         numpy_data, sample_rate, output_path = scraper.download_audio(args.output_dir)
 
