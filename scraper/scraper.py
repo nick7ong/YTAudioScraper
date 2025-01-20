@@ -76,7 +76,7 @@ class YouTubeAudioScraper:
         with tqdm(
                 total=100,
                 desc="Converting audio_path to NumPy array",
-                bar_format="{desc}: {percentage:3.0f}%|{bar}|",
+                bar_format="{desc}: {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} {unit}",
         ) as pbar:
             audio_segment = AudioSegment.from_file(buffer, format="mp4")
             wav_buffer = BytesIO()
@@ -120,7 +120,7 @@ class YouTubeAudioScraper:
         with tqdm(
                 total=100,
                 desc="Saving audio_path to WAV file",
-                bar_format="{desc}: {percentage:3.0f}%|{bar}|",
+                bar_format="{desc}: {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} {unit}",
         ) as pbar:
             buffer = self._get_fresh_buffer()
             audio_segment = AudioSegment.from_file(buffer, format="mp4")

@@ -31,7 +31,8 @@ def main():
         if args.enhance:
             print(f"{Fore.YELLOW}Enhance={args.enhance}{Style.RESET_ALL}")
             print(f"{Fore.YELLOW}Model weights={args.weights}{Style.RESET_ALL}")
-            enhanced_path = f"enhanced_{output_path}"
+            enhanced_filename = f"enhanced_{os.path.basename(output_path)}"
+            enhanced_path = os.path.join(args.output_dir, enhanced_filename)
             enhancer.process_audio(output_path, enhanced_path, args.weights)
 
     except Exception as e:
