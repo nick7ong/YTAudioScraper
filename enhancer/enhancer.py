@@ -101,11 +101,22 @@ def main(input_wav, output_wav, checkpoint_file):
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     checkpoint = torch.load(checkpoint_file, map_location=device)
+    if ".bin" in checkpoint_file:
+        sr = checkpoint['model_args'].sr
+        win = checkpoint['model_args'].win
+        feature_dim = checkpoint['model_args'].feature_dim
+        layer = checkpoint['model_args'].layer
+    elif ".ckpt" in checkpoint_file:  # Hard-coded values for the uni model
+        sr = 44100
+        win = 20
+        feature_dim = 384
+        layer = 6
+
     model = Apollo(
-        sr=checkpoint['model_args'].sr,
-        win=checkpoint['model_args'].win,
-        feature_dim=checkpoint['model_args'].feature_dim,
-        layer=checkpoint['model_args'].layer
+        sr=sr,
+        win=win,
+        feature_dim=feature_dim,
+        layer=layer
     ).to(device)
 
     model.load_state_dict(checkpoint['state_dict'])
