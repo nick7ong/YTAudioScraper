@@ -1,9 +1,11 @@
+import argparse
+
 import librosa
 import numpy as np
 import soundfile as sf
 import torch
-
 from tqdm import tqdm
+
 from apollo import Apollo
 
 
@@ -113,12 +115,11 @@ def main(input_wav, output_wav, checkpoint_file):
     save_audio(output_wav, output, fs)
 
 
-
 if __name__ == "__main__":
-    # parser = argparse.ArgumentParser(description="Audio Inference Script")
-    # parser.add_argument("--in_wav", type=str, required=True, help="Path to input wav file")
-    # parser.add_argument("--out_wav", type=str, required=True, help="Path to output wav file")
-    # args = parser.parse_args()
+    parser = argparse.ArgumentParser(description="Audio Inference Script")
+    parser.add_argument("--in_wav", type=str, required=True, help="Path to input wav file")
+    parser.add_argument("--out_wav", type=str, required=True, help="Path to output wav file")
+    args = parser.parse_args()
 
-    # main(args.in_wav, args.out_wav, "weights/apollo.bin")
-    main("../output/128kbps.wav", "../output/upscaled_128kbps.wav", "weights/apollo.bin")
+    main(args.in_wav, args.out_wav, "weights/apollo.bin")
+    # main("../output/128kbps.wav", "../output/upscaled_128kbps.wav", "weights/apollo.bin")
