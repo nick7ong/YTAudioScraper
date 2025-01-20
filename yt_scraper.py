@@ -31,7 +31,8 @@ def main():
         if args.enhance:
             print(f"{Fore.YELLOW}Enhance={args.enhance}{Style.RESET_ALL}")
             print(f"{Fore.YELLOW}Model weights={args.weights}{Style.RESET_ALL}")
-            enhancer.process_audio(output_path, output_path, args.weights)
+            enhanced_path = f"enhanced_{output_path}"
+            enhancer.process_audio(output_path, enhanced_path, args.weights)
 
     except Exception as e:
         print(f"An error occurred: {str(e)}")
