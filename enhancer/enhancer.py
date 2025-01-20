@@ -18,8 +18,6 @@ warnings.filterwarnings(
 
 def load_audio(file_path):
     audio, samplerate = librosa.load(file_path, mono=False, sr=44100)
-    print(f'INPUT audio_path.shape = {audio.shape} | samplerate = {samplerate}')
-    # audio_path = dBgain(audio_path, -6)
     return torch.from_numpy(audio), samplerate
 
 
@@ -64,7 +62,7 @@ def enchance(model, audio_path, device):
     counter = torch.zeros((1,) + tuple(test_data.shape), dtype=torch.float32, device=device)
 
     i = 0
-    progress_bar = tqdm(total=test_data.shape[1], desc="Enhancing audio_path chunks", leave=True)
+    progress_bar = tqdm(total=test_data.shape[1], desc="Processing audio_path chunks", leave=True)
 
     while i < test_data.shape[1]:
         part = test_data[:, i:i + C]

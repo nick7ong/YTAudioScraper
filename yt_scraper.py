@@ -1,5 +1,6 @@
 import argparse
 import os
+from colorama import Fore, Style
 
 import enhancer
 from scraper import YouTubeAudioScraper
@@ -27,11 +28,9 @@ def main():
         scraper = YouTubeAudioScraper(args.yt_url)
         numpy_data, sample_rate, output_path = scraper.download_audio(args.output_dir)
 
-        # Print final results
-        print(f"Audio data: {numpy_data.shape}, Sample rate: {sample_rate}")
-        print(f"Audio saved to: {output_path}")
-
         if args.enhance:
+            print(f"{Fore.YELLOW}Enhance={args.enhance}{Style.RESET_ALL}")
+            print(f"{Fore.YELLOW}Model weights={args.weights}{Style.RESET_ALL}")
             enhancer.process_audio(output_path, output_path, args.weights)
 
     except Exception as e:
