@@ -6,7 +6,7 @@ import soundfile as sf
 import torch
 from tqdm import tqdm
 
-from apollo import Apollo
+from .apollo import Apollo
 
 
 def load_audio(file_path):
@@ -97,7 +97,7 @@ def enchance(model, audio_path, device):
     return samplerate, final_output.T
 
 
-def main(input_wav, output_wav, checkpoint_file):
+def process_audio(input_wav, output_wav, checkpoint_file):
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     checkpoint = torch.load(checkpoint_file, map_location=device)
@@ -133,5 +133,4 @@ if __name__ == "__main__":
     parser.add_argument("--weights", type=str, required=True, help="Path to weights file")
     args = parser.parse_args()
 
-    main(args.in_wav, args.out_wav, args.weights)
-    # main("../output/128kbps.wav", "../output/upscaled_128kbps.wav", "weights/apollo.bin")
+    process_audio(args.in_wav, args.out_wav, args.weights)

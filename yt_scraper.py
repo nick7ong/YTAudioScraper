@@ -1,6 +1,7 @@
 import argparse
 import os
 
+import enhancer
 from scraper import YouTubeAudioScraper
 
 
@@ -14,6 +15,8 @@ def main():
         default="output",  # Set default value to 'output'
         help="Directory to save the WAV file. Defaults to 'output'."
     )
+    parser.add_argument("--enhance", type=bool, default=False, help="Lossy audio restoration using Apollo.")
+    parser.add_argument("--weights", type=str, nargs="?", default="enhancer/weights/apollo_model_uni.ckpt")
 
     args = parser.parse_args()
 
@@ -27,6 +30,10 @@ def main():
         # Print final results
         print(f"Audio data: {numpy_data.shape}, Sample rate: {sample_rate}")
         print(f"Audio saved to: {output_path}")
+
+        if args.enhance:
+            enhancer.process_audio(output_path, output_path, args.weights)
+
     except Exception as e:
         print(f"An error occurred: {str(e)}")
 

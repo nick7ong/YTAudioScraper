@@ -1,2 +1,2 @@
-from scaler.apollo import *
-from scaler.enhancer import *
+from enhancer.apollo import *
+from enhancer.enhancer import *
