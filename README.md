@@ -44,10 +44,11 @@ Informative resources on YouTube audio stream quality:
 
 ### Citations
 ```text
-@article{li2024apollo,
+@inproceedings{li2025apollo,
   title={Apollo: Band-sequence Modeling for High-Quality Music Restoration in Compressed Audio},
   author={Li, Kai and Luo, Yi},
-  journal={xxxxxx},
-  year={2024}
+  booktitle={IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  year={2025},
+  organization={IEEE}
 }
 ```
