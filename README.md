@@ -30,7 +30,7 @@ enhancer.process_audio(input_path, output_path, weights)
 ```
 
 ### Resources
-Enhancer model weights:
+Pre-trained model weights:
 ```bash
 cd enhancer/weights
 wget 'https://huggingface.co/JusperLee/Apollo/resolve/main/pytorch_model.bin'
