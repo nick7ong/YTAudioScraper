@@ -1,6 +1,5 @@
 # YTAudioScraper
-This project enables users to download WAV audio files from YouTube URLs and applies the [Apollo](https://github.com/JusperLee/Apollo) deep learning model to reconstruct and restore high-frequency content above 16kHz lost due to lossy MP4 compression. 
-By combining audio scraping and advanced audio enhancement, it delivers improved audio quality for applications requiring near-lossless sound fidelity.
+This project enables users to scrape and download near-lossless 44.1kHz WAV audio from YouTube URLs. We apply the [Apollo](https://github.com/JusperLee/Apollo) deep learning model to reconstruct and restore high-frequency content above 16kHz lost due to lossy MP4 compression.
 
 ### Environment Setup and Requirements
 ```bash
