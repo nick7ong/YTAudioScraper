@@ -16,7 +16,7 @@ class YouTubeAudioScraper:
     def __init__(self, url):
         self.url = url
         self.yt = YouTube(url)
-        self.audio_buffer = None  # Store the audio buffer to avoid re-downloading
+        self.audio_buffer = None  # Store the audio_path buffer to avoid re-downloading
         self.numpy_data = None  # Store NumPy array data for reuse
         self.sample_rate = None
         print(f"{Fore.CYAN}Initialized YouTube scraper for URL: {url}{Style.RESET_ALL}")
@@ -24,18 +24,18 @@ class YouTubeAudioScraper:
         self._buffer_audio()  # Ensure the buffer is initialized during setup
 
     def _get_audio_stream(self):
-        """Retrieve the audio stream from the YouTube video."""
-        print(f"{Fore.YELLOW}Fetching audio stream...{Style.RESET_ALL}")
+        """Retrieve the audio_path stream from the YouTube video."""
+        print(f"{Fore.YELLOW}Fetching audio_path stream...{Style.RESET_ALL}")
         stream_query = self.yt.streams.filter(only_audio=True, file_extension='mp4')  # Ffmpeg only supports m4a/aac
         audio_stream = stream_query.last()  # Last stream is highest bitrate
         if audio_stream:
             print(f"{Fore.GREEN}Audio stream retrieved successfully.{Style.RESET_ALL}")
         else:
-            raise ValueError(f"{Fore.RED}Failed to retrieve audio stream.{Style.RESET_ALL}")
+            raise ValueError(f"{Fore.RED}Failed to retrieve audio_path stream.{Style.RESET_ALL}")
         return audio_stream
 
     def _buffer_audio(self):
-        """Buffer the audio stream into a BytesIO object."""
+        """Buffer the audio_path stream into a BytesIO object."""
         if self.audio_buffer:
             print(f"{Fore.GREEN}Audio already downloaded. Using cached buffer.{Style.RESET_ALL}")
             return self.audio_buffer
@@ -52,7 +52,7 @@ class YouTubeAudioScraper:
                 total=total_size,
                 unit="B",
                 unit_scale=True,
-                desc="Downloading audio from URL",
+                desc="Downloading audio_path from URL",
                 bar_format="{desc}: {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} {unit}",
         ) as pbar:
             def progress_hook(stream, chunk, bytes_remaining):
@@ -66,7 +66,7 @@ class YouTubeAudioScraper:
         return buffer
 
     def _convert_to_numpy(self):
-        """Convert the audio buffer to a NumPy array and store the result."""
+        """Convert the audio_path buffer to a NumPy array and store the result."""
         if self.numpy_data is not None and self.sample_rate is not None:
             print(f"{Fore.GREEN}NumPy data already converted. Reusing cached data.{Style.RESET_ALL}")
             return self.numpy_data, self.sample_rate
@@ -75,8 +75,8 @@ class YouTubeAudioScraper:
 
         with tqdm(
                 total=100,
-                desc="Converting audio to NumPy array",
-                bar_format="{desc}: {percentage:3.0f}%|{bar}|",
+                desc="Converting audio_path to NumPy array",
+                bar_format="{desc}: {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} {unit}",
         ) as pbar:
             audio_segment = AudioSegment.from_file(buffer, format="mp4")
             wav_buffer = BytesIO()
@@ -88,7 +88,7 @@ class YouTubeAudioScraper:
         return self.numpy_data, self.sample_rate
 
     def _get_fresh_buffer(self):
-        """Create a fresh copy of the audio buffer for each use."""
+        """Create a fresh copy of the audio_path buffer for each use."""
         if not self.audio_buffer:
             raise ValueError("Audio buffer is not initialized.")
         new_buffer = BytesIO(self.audio_buffer.getvalue())
@@ -97,7 +97,7 @@ class YouTubeAudioScraper:
 
     def download_audio(self, destination_dir):
         """
-        Convert the YouTube audio to NumPy, then save as a WAV file.
+        Convert the YouTube audio_path to NumPy, then save as a WAV file.
 
         Args:
             destination_dir (str): Path to the directory where the file will be saved.
@@ -119,8 +119,8 @@ class YouTubeAudioScraper:
 
         with tqdm(
                 total=100,
-                desc="Saving audio to WAV file",
-                bar_format="{desc}: {percentage:3.0f}%|{bar}|",
+                desc="Saving audio_path to WAV file",
+                bar_format="{desc}: {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} {unit}",
         ) as pbar:
             buffer = self._get_fresh_buffer()
             audio_segment = AudioSegment.from_file(buffer, format="mp4")
