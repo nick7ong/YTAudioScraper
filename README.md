@@ -1,8 +1,14 @@
 # YTAudioScraper
-This project enables users to scrape and download near-lossless 44.1kHz WAV audio from YouTube URLs. We apply the [Apollo](https://github.com/JusperLee/Apollo) deep learning model to reconstruct and restore high-frequency content above 16kHz lost due to lossy MP4 compression.
+This project enables users to scrape and download near-lossless 44.1kHz WAV audio from YouTube URLs. [Apollo](https://github.com/JusperLee/Apollo) is used to reconstruct and restore the missing high-frequency content (>16kHz) from the lossy MP4 compression.
 
 ### Environment Setup and Requirements
 ```bash
+# venv (for CPU w/o enhancer)
+python3 -m venv <env-name>
+source <env-name>/bin/activate
+pip install -r requirements.txt
+
+# miniconda3 (with cuda/GPU support)
 conda create --name <env-name> python=3.10
 conda activate <env-name>
 pip install -r requirements.txt
@@ -11,7 +17,7 @@ pip install -r requirements.txt
 ### How to Use
 To run CLI script:
 ```bash
-python yt_scraper.py <YT_URL> <OUTPUT_DIR> --enhance True
+python yt_scraper.py <YT_URL> <OUTPUT_DIR> --enhance --weights <CKPT_FILE>
 ```
 To use YTAudioScraper() class in code:
 ```python
