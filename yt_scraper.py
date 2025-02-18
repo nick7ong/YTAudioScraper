@@ -16,7 +16,7 @@ def main():
         default="output",  # Set default value to 'output'
         help="Directory to save the WAV file. Defaults to 'output'."
     )
-    parser.add_argument("--enhance", type=bool, default=False, help="Lossy audio restoration using Apollo.")
+    parser.add_argument("--enhance", action="store_true", help="Lossy audio restoration using Apollo.")
     parser.add_argument("--weights", type=str, nargs="?", default="enhancer/weights/apollo_model_uni.ckpt")
 
     args = parser.parse_args()
