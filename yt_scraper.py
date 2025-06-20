@@ -1,8 +1,8 @@
 import argparse
 import os
+
 from colorama import Fore, Style
 
-import enhancer
 from scraper import YouTubeAudioScraper
 
 
@@ -29,6 +29,7 @@ def main():
         numpy_data, sample_rate, output_path = scraper.download_audio(args.output_dir)
 
         if args.enhance:
+            import enhancer
             print(f"{Fore.YELLOW}Enhance={args.enhance}{Style.RESET_ALL}")
             print(f"{Fore.YELLOW}Model weights={args.weights}{Style.RESET_ALL}")
             enhanced_filename = f"enhanced_{os.path.basename(output_path)}"
