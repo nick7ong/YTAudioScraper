@@ -20,7 +20,7 @@ def main():
 
     try:
         # Initialize the scraper and download audio_path
-        scraper = YouTubeAudioScraper(args.yt_url)
+        scraper = YouTubeAudioScraper(args.url)
         numpy_data, sample_rate, output_path = scraper.download_audio(args.output_dir, args.format)
 
         if args.enhance:
