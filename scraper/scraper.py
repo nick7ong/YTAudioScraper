@@ -95,12 +95,13 @@ class YouTubeAudioScraper:
         new_buffer.seek(0)
         return new_buffer
 
-    def download_audio(self, destination_dir):
+    def download_audio(self, destination_dir, format="wav"):
         """
         Convert the YouTube audio_path to NumPy, then save as a WAV file.
 
         Args:
             destination_dir (str): Path to the directory where the file will be saved.
+            format (str, optional): The output format of the audio file (i.e. "wav" or "mp3").
 
         Returns:
             tuple: (numpy_data, sample_rate, str) - NumPy data, sample rate, and the file path.
@@ -115,16 +116,16 @@ class YouTubeAudioScraper:
 
         sanitized_title = re.sub(r"[\/| ]|[\s-]*-[\s-]*", "_", self.yt.title)
         sanitized_title = re.sub(r"_+", "_", sanitized_title)
-        output_path = os.path.join(destination_dir, f"{sanitized_title}.wav")
+        output_path = os.path.join(destination_dir, f"{sanitized_title}.{format}")
 
         with tqdm(
                 total=100,
-                desc="Saving audio_path to WAV file",
+                desc=f"Saving audio_path to {format} file",
                 bar_format="{desc}: {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} {unit}",
         ) as pbar:
             buffer = self._get_fresh_buffer()
             audio_segment = AudioSegment.from_file(buffer, format="mp4")
-            audio_segment.export(output_path, format="wav")
+            audio_segment.export(output_path, format=format)
             pbar.update(100)
 
         print(f"{Fore.GREEN}Download complete.{Style.RESET_ALL}")
@@ -135,10 +136,11 @@ class YouTubeAudioScraper:
 if __name__ == "__main__":
     yt_url = input("URL > ")
     output_dir = os.path.join("..", "output")
+    format = "mp3"
 
     try:
         # Initialize the scraper and execute its methods
         scraper = YouTubeAudioScraper(yt_url)
-        scraper.download_audio(output_dir)
+        scraper.download_audio(output_dir, format=format)
     except Exception as e:
         print(f"{Fore.RED}An error occurred: {str(e)}{Style.RESET_ALL}")

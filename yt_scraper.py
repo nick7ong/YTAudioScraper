@@ -8,16 +8,11 @@ from scraper import YouTubeAudioScraper
 
 def main():
     parser = argparse.ArgumentParser(description="Download YouTube audio_path as WAV and convert to NumPy array.")
-    parser.add_argument("yt_url", type=str, help="The YouTube video URL.")
-    parser.add_argument(
-        "output_dir",
-        type=str,
-        nargs="?",  # Make this argument optional
-        default="output",  # Set default value to 'output'
-        help="Directory to save the WAV file. Defaults to 'output'."
-    )
-    parser.add_argument("--enhance", action="store_true", help="Lossy audio restoration using Apollo.")
-    parser.add_argument("--weights", type=str, nargs="?", default="enhancer/weights/apollo_model_uni.ckpt")
+    parser.add_argument("--url", type=str, help="The YouTube video URL.")
+    parser.add_argument("--output_dir", type=str, nargs="?", default="output", help="Directory to save the WAV file. Defaults to 'output'.")
+    parser.add_argument("--format", type=str, choices=["wav", "mp3"], help="The output format of the audio file ('wav' or 'mp3')")
+    parser.add_argument("--enhance", action="store_true", help="(Optional) Lossy audio restoration using Apollo.")
+    parser.add_argument("--weights", type=str, nargs="?", default="(Optional) enhancer/weights/apollo_model_uni.ckpt")
 
     args = parser.parse_args()
 
@@ -26,7 +21,7 @@ def main():
     try:
         # Initialize the scraper and download audio_path
         scraper = YouTubeAudioScraper(args.yt_url)
-        numpy_data, sample_rate, output_path = scraper.download_audio(args.output_dir)
+        numpy_data, sample_rate, output_path = scraper.download_audio(args.output_dir, args.format)
 
         if args.enhance:
             import enhancer

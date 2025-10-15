@@ -1,7 +1,24 @@
 # YTAudioScraper
 This project enables users to scrape and download near-lossless 44.1kHz WAV audio from YouTube URLs. [Apollo](https://github.com/JusperLee/Apollo) is used to reconstruct and restore the missing high-frequency content (>16kHz) from the lossy MP4 compression.
 
-### Environment Setup and Requirements
+## Prerequisites
+### FFMPEG [Download](https://www.ffmpeg.org/download.html)
+```bash
+# Windows CLI install
+winget install ffmpeg
+
+# MacOS (Homebrew)
+brew install ffmpeg
+
+# Ubuntu Linux 
+sudo apt update
+sudo apt install ffmpeg -y
+
+# Verify Installation
+ffmpeg -version
+```
+
+### Python Environment Setup
 ```bash
 # venv (for CPU w/o enhancer)
 python3 -m venv <env-name>
@@ -14,24 +31,32 @@ conda activate <env-name>
 pip install -r requirements.txt
 ```
 
-### How to Use
-To run CLI script:
+## How to Use
+### Basic Usage
+Run on CLI:
 ```bash
-python yt_scraper.py <YT_URL> <OUTPUT_DIR> --enhance --weights <CKPT_FILE>
+python yt_scraper.py \
+  --url <YT_URL> \
+  --output_dir <OUTPUT_DIR> \
+  --format "mp3"  # choices=["wav", "mp3"]
 ```
-To use YTAudioScraper() class in code:
+
+Use YTAudioScraper() class in code:
 ```python
 import enhancer
 from scraper import YTAudioScraper
 
 url = "<YT_URL>"
 output_dir = "<OUTPUT_DIR>"
-weights = "<WEIGHTS_PATH>"  # .bin or .ckpt
+format = "wav"  # or mp3
 
 scraper = YouTubeAudioScraper(url)
-data, sample_rate, output_path = scraper.download_audio(output_dir)
+data, sample_rate, output_path = scraper.download_audio(output_dir, format)
+```
 
-# Optionally restore >16kHz content with enhancer
+```python
+# Optionally restore >16kHz content with enhancer (only works for .wav)
+weights = "<PATH_TO_WEIGHTS>"  # .bin or .ckpt
 enhancer.process_audio(input_path, output_path, weights)
 ```
 
